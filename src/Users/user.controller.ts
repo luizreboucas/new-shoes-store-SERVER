@@ -1,13 +1,13 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import UserService from './user.service';
 import { UserDto } from './userDto';
-import { User } from '@prisma/client';
 
 @Controller('/users')
 export class UserController {
   constructor(private userService: UserService) {}
   @Post()
-  async createUser(@Body() data: User) {
+  async createUser(@Body() data: UserDto) {
+    console.log('passou aqui controller');
     return await this.userService.create(data);
   }
   @Get()
@@ -21,7 +21,7 @@ export class UserController {
   }
 
   @Put('/:id')
-  async create(@Param('id') id: number, @Body() data: UserDto) {
-    return await this.userService.update(id, data.makeFromInput());
+  async updateUser(@Param('id') id: string, @Body() data: Partial<UserDto>) {
+    return await this.userService.update(+id, data);
   }
 }

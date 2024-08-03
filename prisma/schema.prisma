@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String
-  adress   String
-  profile  Profile @relation(fields: [id], references: [id])
-  password String
-
-  Purchase Purchase[]
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  name      String
+  adress    String
+  profile   Profile    @relation(fields: [profileId], references: [id])
+  profileId Int
+  password  String
+  Purchase  Purchase[]
 }
 
 model Profile {

@@ -1,3 +1,4 @@
+import { UserDto } from './userDto';
 import UserRepository from './userRepository';
 import { User } from '@prisma/client';
 
@@ -7,7 +8,8 @@ export default class UserService {
     this.userRepository = new UserRepository();
   }
 
-  public create = async (data: Omit<User, 'id'>) => {
+  public create = async (data: UserDto) => {
+    console.log('passou aqui service');
     return await this.userRepository.create(data);
   };
 
