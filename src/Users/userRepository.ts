@@ -1,13 +1,6 @@
 import { User, PrismaClient } from '@prisma/client';
-
-class UserRepository implements User {
+export class UserRepository {
   prisma: PrismaClient;
-  id: number;
-  email: string;
-  password: string;
-  name: string;
-  adress: string;
-
   constructor() {
     this.prisma = new PrismaClient();
   }
@@ -23,7 +16,8 @@ class UserRepository implements User {
     });
   }
   async create(data: Omit<User, 'id'>) {
-    return this.prisma.user.create({ data });
+    const newData = { ...data, id: undefined };
+    return this.prisma.user.create({ data: newData });
   }
 
   async delete(id: number) {
@@ -34,10 +28,10 @@ class UserRepository implements User {
     });
   }
 
-  async update(newData: User) {
+  async update(id: number, newData: Partial<User>) {
     return await this.prisma.user.update({
       where: {
-        id: newData.id,
+        id,
       },
       data: {
         ...newData,
