@@ -1,4 +1,5 @@
 import { PrismaClient, Product } from '@prisma/client';
+import { ProductDto } from './ProductDto';
 
 export class ProductRepository {
   private prismaClient: PrismaClient;
@@ -18,24 +19,23 @@ export class ProductRepository {
     });
   }
 
-  async create(data: Product) {
-    if (data.name && data.price) {
-      try {
-        const product = await Product.create({
-          data: {
-            name: data.name,
-            price: data.price,
-          },
-        });
-        return product;
-      } catch (error) {
-        throw new Error('erro ao criar produto');
-      }
+  async create(data: Partial<ProductDto>) {
+    try {
+      const product = await this.prismaClient.product.create({
+        data: {
+          name: data.name,
+          price: data.price,
+          photo: data.photo ? data.photo : '',
+        },
+      });
+      return product;
+    } catch (error) {
+      throw new Error('erro ao criar produto');
     }
   }
 
   async delete(id: number) {
-    return await Product.delete({
+    return await this.prismaClient.product.delete({
       where: {
         id,
       },
@@ -43,13 +43,12 @@ export class ProductRepository {
   }
 
   async update(id: number, newData: Partial<Product>) {
-    return await Product.update({
+    return await this.prismaClient.product.update({
       where: {
         id,
       },
       data: {
-        name: newData.name,
-        price: newData.price,
+        ...newData,
       },
     });
   }
