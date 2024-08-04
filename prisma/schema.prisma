@@ -24,11 +24,13 @@ model Profile {
   users User[]
 }
 
+
 model Purchase {
   id       Int       @id @default(autoincrement())
   date     DateTime
   total    Float
-  user     User      @relation(fields: [id], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
   products Product[]
 }
 
