@@ -1,6 +1,7 @@
 import { UserDto } from './userDto';
 import UserRepository from './userRepository';
 import { User } from '@prisma/client';
+import { Crypt } from 'src/utils/crypt';
 
 export default class UserService {
   private userRepository: UserRepository;
@@ -9,7 +10,8 @@ export default class UserService {
   }
 
   public create = async (data: UserDto) => {
-    console.log('passou aqui service');
+    const hashedPassword = Crypt.hashPassword(data.password);
+    data.password = hashedPassword;
     return await this.userRepository.create(data);
   };
 
