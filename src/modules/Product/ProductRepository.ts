@@ -1,5 +1,5 @@
 import { PrismaClient, Product } from '@prisma/client';
-import { ProductDto } from './ProductDto';
+import { ProductDto } from './DTO/CreateProductDto';
 
 export class ProductRepository {
   private prismaClient: PrismaClient;

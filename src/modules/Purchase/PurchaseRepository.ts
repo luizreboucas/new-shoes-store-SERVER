@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { PurchaseDto } from './PurchaseDto';
+import { PurchaseDto } from './DTO/PurchaseDto';
 
 export class PurchaseRepository {
   prismaClient: PrismaClient;

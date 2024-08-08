@@ -1,3 +1,5 @@
+import { CreateUserDTO } from './DTO/CreateUserDTO';
+import { UpdateUserDTO } from './DTO/UpdateUserDTO';
 import { UserDto } from './userDto';
 import UserRepository from './userRepository';
 import { User } from '@prisma/client';
@@ -9,7 +11,7 @@ export default class UserService {
     this.userRepository = new UserRepository();
   }
 
-  public create = async (data: UserDto) => {
+  public create = async (data: CreateUserDTO) => {
     const hashedPassword = Crypt.hashPassword(data.password);
     data.password = hashedPassword;
     return await this.userRepository.create(data);
@@ -27,7 +29,7 @@ export default class UserService {
     return await this.userRepository.delete(id);
   };
 
-  public update = async (id: number, newData: Partial<User>) => {
+  public update = async (id: number, newData: UpdateUserDTO) => {
     return await this.userRepository.update(id, newData);
   };
 }
